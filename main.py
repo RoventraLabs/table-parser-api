@@ -8,7 +8,7 @@ from urllib.parse import urljoin, urlparse
 import pandas as pd
 import requests
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, Field, HttpUrl
 
 MAX_HTML_BYTES = 2 * 1024 * 1024
 MAX_REDIRECTS = 3
@@ -29,13 +29,49 @@ app = FastAPI(
 
 
 class TableExtractRequest(BaseModel):
-    url: HttpUrl
+    url: HttpUrl = Field(
+        description="Public HTTP/HTTPS webpage URL containing one or more HTML tables.",
+        examples=["https://www.w3schools.com/html/html_tables.asp"],
+    )
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {"url": "https://www.w3schools.com/html/html_tables.asp"}
+            ]
+        }
+    }
 
 
 class TableExtractResponse(BaseModel):
-    url: str
-    tables_found: int
-    tables: list[list[dict[str, Any]]]
+    url: str = Field(description="URL submitted for extraction.")
+    tables_found: int = Field(description="Number of HTML tables extracted.")
+    tables: list[list[dict[str, Any]]] = Field(
+        description=(
+            "Tables in source order. Each table is a list of row objects; "
+            "object keys are column headers and missing cell values are empty strings."
+        )
+    )
+
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "url": "https://www.w3schools.com/html/html_tables.asp",
+                    "tables_found": 1,
+                    "tables": [
+                        [
+                            {
+                                "Company": "Alfreds Futterkiste",
+                                "Contact": "Maria Anders",
+                                "Country": "Germany",
+                            }
+                        ]
+                    ],
+                }
+            ]
+        }
+    }
 
 
 @app.get("/", tags=["Service"])
@@ -199,6 +235,57 @@ def fetch_public_html(start_url: str) -> str:
     response_model=TableExtractResponse,
     tags=["Extraction"],
     summary="Extract HTML tables from a public webpage",
+    description=(
+        "Fetches a public webpage and returns each HTML table as row objects. "
+        "Does not execute page JavaScript. No API key is required."
+    ),
+    responses={
+        400: {
+            "description": "Invalid URL or destination blocked by public-URL safety checks.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "URL rejected: use a public HTTP/HTTPS address on port 80 or 443."
+                    }
+                }
+            },
+        },
+        413: {
+            "description": "The source HTML or extracted table data exceeds a processing limit.",
+            "content": {
+                "application/json": {
+                    "example": {"detail": "The source page is larger than the 2 MiB limit."}
+                }
+            },
+        },
+        422: {
+            "description": "The request body is missing or the URL field is invalid.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": [
+                            {
+                                "type": "missing",
+                                "loc": ["body", "url"],
+                                "msg": "Field required",
+                                "input": {},
+                            }
+                        ]
+                    }
+                }
+            },
+        },
+        502: {
+            "description": "The source page could not be fetched or returned an invalid redirect.",
+            "content": {
+                "application/json": {
+                    "example": {
+                        "detail": "Could not fetch the source page. Check the URL and try again."
+                    }
+                }
+            },
+        },
+    },
 )
 def extract_tables(request: TableExtractRequest) -> TableExtractResponse:
     """Fetch a public webpage and return its HTML tables as JSON records."""
