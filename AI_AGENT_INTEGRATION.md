@@ -11,6 +11,26 @@ This API turns HTML tables on a **public webpage** into JSON rows. It does not r
 - Authentication: none
 - OpenAPI schema: [/openapi.json](https://table-parser-api-rov-entra.onrender.com/openapi.json)
 - Interactive docs: [/docs](https://table-parser-api-rov-entra.onrender.com/docs)
+- **Hosted remote MCP endpoint:** `https://table-parser-api-rov-entra.onrender.com/mcp`
+
+## Use the remote MCP endpoint (no always-on computer)
+
+The MCP server is mounted on the **same Render service** as the REST API. A separate server does not need to run on your computer, and your computer can be turned off after you have configured an MCP-compatible client.
+
+In the client, add a remote MCP server using the URL below:
+
+```text
+https://table-parser-api-rov-entra.onrender.com/mcp
+```
+
+Use a client that supports remote **MCP Streamable HTTP** servers. The server exposes two tools:
+
+- `extract_html_tables` — retrieves tables from a public webpage, with adjustable row/table output limits.
+- `get_parser_service_info` — returns the deployed service version, endpoints, and processing limits.
+
+The remote endpoint currently requires no authentication, matching the existing public REST API. Only use it for reasonable, non-sensitive public-page extraction; it has no per-user quota yet.
+
+**Free-hosting behavior:** Render may put the service to sleep after 15 minutes without incoming traffic. It wakes on the next request, which may take about one minute. This does not require your computer to stay on, but the service is not guaranteed to be always available.
 
 Request body:
 
