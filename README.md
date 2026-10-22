@@ -5,7 +5,8 @@ A small HTTP API that fetches a **public HTML webpage** and returns its HTML tab
 **Hosted API:** https://table-parser-api-rov-entra.onrender.com  
 **Interactive docs:** https://table-parser-api-rov-entra.onrender.com/docs  
 **OpenAPI schema:** https://table-parser-api-rov-entra.onrender.com/openapi.json  
-**Health check:** https://table-parser-api-rov-entra.onrender.com/health
+**Health check:** https://table-parser-api-rov-entra.onrender.com/health  
+**AI agent integration guide:** [AI_AGENT_INTEGRATION.md](AI_AGENT_INTEGRATION.md)
 
 ## Quick start
 
@@ -37,6 +38,8 @@ Example response shape:
 ```
 
 The number of tables and records depends on the source page.
+
+For ready-to-run Python, JavaScript, and cURL examples, agent tool instructions, and error-handling guidance, see the [AI agent integration guide](AI_AGENT_INTEGRATION.md).
 
 ## Endpoints
 
