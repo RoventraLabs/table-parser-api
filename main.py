@@ -24,7 +24,7 @@ app = FastAPI(
         "Extracts tables from publicly accessible HTML webpages and converts "
         "them to JSON. No API key or paid AI service is required."
     ),
-    version="1.2.0",
+    version="1.3.0",
 )
 
 
@@ -158,7 +158,7 @@ def validate_public_url(url: str) -> None:
 def fetch_public_html(start_url: str) -> str:
     current_url = start_url
     headers = {
-        "User-Agent": "RoventraLabs-TableParser/1.2",
+        "User-Agent": "RoventraLabs-TableParser/1.3",
         "Accept": "text/html,application/xhtml+xml;q=0.9,*/*;q=0.1",
     }
 
