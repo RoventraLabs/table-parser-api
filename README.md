@@ -6,8 +6,9 @@ A small HTTP API that fetches a **public HTML webpage** and returns its HTML tab
 **Interactive docs:** https://table-parser-api-rov-entra.onrender.com/docs  
 **OpenAPI schema:** https://table-parser-api-rov-entra.onrender.com/openapi.json  
 **Health check:** https://table-parser-api-rov-entra.onrender.com/health  
+**Remote MCP endpoint:** https://table-parser-api-rov-entra.onrender.com/mcp  
 **AI agent integration guide:** [AI_AGENT_INTEGRATION.md](AI_AGENT_INTEGRATION.md)  
-**Local MCP adapter:** [integrations/mcp/README.md](integrations/mcp/README.md)
+**Optional local MCP adapter:** [integrations/mcp/README.md](integrations/mcp/README.md)
 
 ## Quick start
 
@@ -49,6 +50,7 @@ For ready-to-run Python, JavaScript, and cURL examples, agent tool instructions,
 | GET | `/` | API information, links and processing limits |
 | GET | `/health` | Lightweight health status |
 | POST | `/api/v1/extract-tables` | Extract HTML tables as JSON |
+| MCP Streamable HTTP | `/mcp` | Remote AI-agent tools: table extraction and service information |
 | GET | `/docs` | Interactive Swagger UI |
 | GET | `/openapi.json` | OpenAPI schema for compatible tools and AI agents |
 
@@ -78,7 +80,7 @@ These limits help keep the free service usable and limit excessive resource cons
 
 - The parser reads the HTML returned by the website. Tables created only by JavaScript after the page loads may not be available.
 - Some sites block automated requests, require login, or may return incomplete content.
-- The hosted service may be slow after inactivity because the free hosting instance can sleep.
+- The hosted REST and MCP endpoints run on the same Render service, so your computer does not need to remain on. The free hosting instance may sleep after 15 minutes without incoming traffic; the first request afterward can take about a minute to wake up.
 - The API is currently unauthenticated and has no per-user quota. Keep usage reasonable; additional abuse protection should be added before promoting it to a large public audience.
 - Do not submit internal URLs, private pages, credentials, or confidential data.
 
