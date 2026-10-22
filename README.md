@@ -6,7 +6,8 @@ A small HTTP API that fetches a **public HTML webpage** and returns its HTML tab
 **Interactive docs:** https://table-parser-api-rov-entra.onrender.com/docs  
 **OpenAPI schema:** https://table-parser-api-rov-entra.onrender.com/openapi.json  
 **Health check:** https://table-parser-api-rov-entra.onrender.com/health  
-**AI agent integration guide:** [AI_AGENT_INTEGRATION.md](AI_AGENT_INTEGRATION.md)
+**AI agent integration guide:** [AI_AGENT_INTEGRATION.md](AI_AGENT_INTEGRATION.md)  
+**Local MCP adapter:** [integrations/mcp/README.md](integrations/mcp/README.md)
 
 ## Quick start
 
