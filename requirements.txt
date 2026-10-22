@@ -1,7 +1,8 @@
-fastapi==0.110.0
-uvicorn==0.28.0
-requests==2.31.0
+fastapi==0.158.1
+uvicorn>=0.31,<1
+requests>=2.31,<3
 pandas==2.2.1
 lxml==5.1.0
 html5lib==1.1
-pydantic==2.6.4
+pydantic>=2.12,<3
+mcp>=2.0,<3
